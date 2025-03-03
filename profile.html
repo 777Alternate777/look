@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
+<head><!DOCTYPE html>
+<html lang="ru">
+<head> <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+<script>
+    const client = new Appwrite.Client();
+    client
+        .setEndpoint("https://cloud.appwrite.io/v1") // 
+        .setProject("67c5f7c100327cf444d4"); // 
+
+    const database = new Appwrite.Databases(client);
+    const collectionId = "your-collection-id"; // ID коллекции анкет
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Анкета</title>

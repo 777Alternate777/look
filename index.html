@@ -35,7 +35,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анкеты</title>
+    <title></title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js"></script>
@@ -52,7 +52,7 @@
     <input type="file" id="photoInput"><br>
     <input type="text" id="nameInput" placeholder="Имя"><br>
     <input type="text" id="descInput" placeholder="Описание"><br>
-    <input type="number" id="priceInput" placeholder="Цена за 1 час"><br>
+    <input type="number" id="priceInput" placeholder="Цена за 1 час (₽)"><br>
     <button onclick="uploadProfile()">Загрузить</button>
 
     <h2>Анкеты</h2>
@@ -122,14 +122,12 @@
 <script>
     const { Client } = Appwrite;
 </script>
-const client = new Client();
-client.setProject('67c5f7c100327cf444d4');
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анкеты</title>
+    <title></title>
     <link rel="stylesheet" href="style.css"> <!-- Подключаем CSS -->
 </head>
 <body>
@@ -147,7 +145,7 @@ client.setProject('67c5f7c100327cf444d4');
         <div class="profile">
             <img src="https://via.placeholder.com/300" alt="Фото анкеты">
             <h3>Имя: Мария</h3>
-            <p>Описание: Другое описание анкеты.</p>
+            <p>Описание: сверхспособность предугадывать блоуджоб.</p>
             <p><strong>Цена за час:</strong> 2000₽</p>
             <button>Подробнее</button>
         </div>
@@ -163,24 +161,4 @@ client.setProject('67c5f7c100327cf444d4');
     <link rel="stylesheet" href="style.css"> <!-- Подключаем CSS -->
 </head>
 <body>
-    <h2>Список анкет</h2>
-    
-    <div class="container">
-        <div class="profile">
-            <img src="https://via.placeholder.com/300" alt="Фото анкеты">
-            <h3>Имя: Анна</h3>
-            <p>Описание: Краткое описание анкеты Анны.</p>
-            <p><strong>Цена за час:</strong> 1500₽</p>
-            <a href="profile.html?id=1" class="button">Подробнее</a>
-        </div>
 
-        <div class="profile">
-            <img src="https://via.placeholder.com/300" alt="Фото анкеты">
-            <h3>Имя: Мария</h3>
-            <p>Описание: Краткое описание анкеты Марии.</p>
-            <p><strong>Цена за час:</strong> 2000₽</p>
-            <a href="profile.html?id=2" class="button">Подробнее</a>
-        </div>
-    </div>
-</body>
-</html>

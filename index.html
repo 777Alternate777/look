@@ -30,3 +30,91 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкеты</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input, button { margin: 10px; padding: 10px; }
+        .profile { border: 1px solid #ddd; padding: 10px; margin-top: 10px; }
+        img { width: 200px; height: auto; }
+    </style>
+</head>
+<body>
+    <h2>Загрузка анкеты</h2>
+    <input type="file" id="photoInput"><br>
+    <input type="text" id="nameInput" placeholder="Имя"><br>
+    <input type="text" id="descInput" placeholder="Описание"><br>
+    <input type="number" id="priceInput" placeholder="Цена за 1 час"><br>
+    <button onclick="uploadProfile()">Загрузить</button>
+
+    <h2>Анкеты</h2>
+    <div id="profiles"></div>
+
+    <script>
+        // Подключаем Firebase
+        const firebaseConfig = {
+            apiKey: "ТВОЙ_API_KEY",
+            authDomain: "ТВОЙ_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://ТВОЙ_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "ТВОЙ_PROJECT_ID",
+            storageBucket: "ТВОЙ_PROJECT_ID.appspot.com",
+            messagingSenderId: "ТВОЙ_SENDER_ID",
+            appId: "ТВОЙ_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const storage = firebase.storage();
+        const db = firebase.database();
+
+        function uploadProfile() {
+            let file = document.getElementById("photoInput").files[0];
+            let name = document.getElementById("nameInput").value;
+            let desc = document.getElementById("descInput").value;
+            let price = document.getElementById("priceInput").value;
+
+            if (!file  !name  !desc || !price) {
+                alert("Заполните все поля!");
+                return;
+            }
+
+            let storageRef = storage.ref("photos/" + file.name);
+            storageRef.put(file).then(snapshot => {
+                storageRef.getDownloadURL().then(url => {
+                    let newProfileRef = db.ref("profiles").push();
+                    newProfileRef.set({ name, desc, price, photo: url });
+                    alert("Анкета загружена!");
+                    loadProfiles();
+                });
+            });
+        }
+
+        function loadProfiles() {
+            document.getElementById("profiles").innerHTML = "";
+            db.ref("profiles").once("value", snapshot => {
+                snapshot.forEach(child => {
+                    let data = child.val();
+                    let div = document.createElement("div");
+                    div.className = "profile";
+                    div.innerHTML = `
+                        <img src="${data.photo}" alt="Фото">
+                        <h3>${data.name}</h3>
+                        <p>${data.desc}</p>
+                        <p><strong>${data.price} ₽/час</strong></p>
+                    `;
+                    document.getElementById("profiles").appendChild(div);
+                });
+            });
+        }
+
+        loadProfiles();
+    </script>
+</body>
+</html>

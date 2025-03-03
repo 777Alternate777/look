@@ -73,3 +73,87 @@ button:hover {
 .profile {
     animation: fadeIn 0.5s ease-in-out;
 }
+/* Общие стили */
+body {
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Контейнер анкет */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Стили карточки анкеты */
+.profile {
+    background: var(--tg-theme-secondary-bg-color);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile:hover {
+    transform: translateY(-5px);
+}
+
+/* Стили для страницы анкеты */
+.profile-detail {
+    max-width: 500px;
+    margin: auto;
+    background: var(--tg-theme-secondary-bg-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили изображений */
+img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Стили кнопок */
+.button {
+    display: inline-block;
+    background-color: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+.button:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+}
+
+/* Анимация загрузки */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile, .profile-detail {
+    animation: fadeIn 0.5s ease-in-out;
+}

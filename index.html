@@ -170,4 +170,54 @@
     <link rel="stylesheet" href="style.css"> <!-- Подключаем CSS -->
 </head>
 <body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список анкет</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+</head>
+<body>
+    <h2>Список анкет</h2>
+    
+    <div id="profiles" class="container"></div>
 
+    <script>
+        // Подключение к Appwrite
+        const client = new Appwrite.Client();
+        client
+            .setEndpoint("https://cloud.appwrite.io/v1") // Заменить на свой endpoint
+            .setProject("67c5f7c100327cf444d4"); // Заменить на свой project ID
+
+        const database = new Appwrite.Databases(client);
+        const collectionId = "your-collection-id"; // Заменить на свой Collection ID
+        const databaseId = "your-database-id"; // Заменить на свой Database ID
+
+        // Функция загрузки анкет
+        async function loadProfiles() {
+            try {
+                const response = await database.listDocuments(databaseId, collectionId);
+                const profilesDiv = document.getElementById("profiles");
+                profilesDiv.innerHTML = "";
+
+                response.documents.forEach(profile => {
+                    profilesDiv.innerHTML += `
+                        <div class="profile">
+                            <img src="${profile.image}" alt="Фото анкеты">
+                            <h3>Имя: ${profile.name}</h3>
+                            <p>${profile.description}</p>
+                            <p><strong>Цена:</strong> ${profile.price}₽</p>
+                            <a href="profile.html?id=${profile.$id}" class="button">Подробнее</a>
+                        </div>`;
+                });
+            } catch (error) {
+                console.error("Ошибка загрузки анкет:", error);
+            }
+        }
+
+        loadProfiles(); // Загружаем анкеты при открытии страницы
+    </script>
+</body>
+</html>

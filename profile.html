@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="profile-detail">
+        <img id="profile-img" src="" alt="Фото анкеты">
+        <h2 id="profile-name"></h2>
+        <p id="profile-desc"></p>
+        <p><strong>Цена за час:</strong> <span id="profile-price"></span></p>
+        <a href="index.html" class="button">Назад</a>
+    </div>
+
+    <script>
+        // Данные анкет (обычно они хранятся на сервере, но пока что просто в JS)
+        const profiles = {
+            1: {
+                name: "Анна",
+                img: "https://via.placeholder.com/300",
+                desc: "Анна – опытный специалист с 5-летним стажем.",
+                price: "1500₽"
+            },
+            2: {
+                name: "Мария",
+                img: "https://via.placeholder.com/300",
+                desc: "Мария – профессионал в своей области с уникальным подходом.",
+                price: "2000₽"
+            }
+        };
+
+        // Получаем ID анкеты из URL
+        const params = new URLSearchParams(window.location.search);
+        const profileId = params.get("id");
+
+        // Заполняем страницу данными анкеты
+        if (profiles[profileId]) {
+            document.getElementById("profile-img").src = profiles[profileId].img;
+            document.getElementById("profile-name").textContent = profiles[profileId].name;
+            document.getElementById("profile-desc").textContent = profiles[profileId].desc;
+            document.getElementById("profile-price").textContent = profiles[profileId].price;
+        } else {
+            document.body.innerHTML = "<h2>Анкета не найдена</h2><a href='index.html'>Назад</a>";
+        }
+    </script>
+</body>
+</html>

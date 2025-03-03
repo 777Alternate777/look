@@ -59,3 +59,51 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+</head>
+<body>
+    <div class="profile-detail">
+        <img id="profile-img" src="" alt="Фото анкеты">
+        <h2 id="profile-name"></h2>
+        <p id="profile-desc"></p>
+        <p><strong>Цена:</strong> <span id="profile-price"></span>₽</p>
+        <a href="index.html" class="button">Назад</a>
+    </div>
+
+    <script>
+        // Подключение к Appwrite
+        const client = new Appwrite.Client();
+        client
+            .setEndpoint("https://cloud.appwrite.io/v1") 
+            .setProject("67c5f7c100327cf444d4"); 
+
+        const database = new Appwrite.Databases(client);
+        const collectionId = "your-collection-id"; 
+        const databaseId = "your-database-id"; 
+
+        async function loadProfile() {
+            const params = new URLSearchParams(window.location.search);
+            const profileId = params.get("id");
+
+            try {
+                const profile = await database.getDocument(databaseId, collectionId, profileId);
+                document.getElementById("profile-img").src = profile.image;
+                document.getElementById("profile-name").textContent = profile.name;
+                document.getElementById("profile-desc").textContent = profile.description;
+                document.getElementById("profile-price").textContent = profile.price;
+            } catch (error) {
+                document.body.innerHTML = "<h2>Анкета не найдена</h2><a href='index.html'>Назад</a>";
+            }
+        }
+
+        loadProfile();
+    </script>
+</body>
+</html>

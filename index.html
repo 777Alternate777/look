@@ -1,181 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head><script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
-<script>
-    const client = new Appwrite.Client();
-    client
-        .setEndpoint("https://cloud.appwrite.io/v1") // 
-        .setProject("67c5f7c100327cf444d4"); // 
-
-    const database = new Appwrite.Databases(client);
-    const collectionId = "your-collection-id"; // ID коллекции анкет
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <h1>Взгляд в будущее</h1>
-    <p id="user-info"></p>
-    <button onclick="Telegram.WebApp.close()"></button>
-
-    <script>
-        // Получаем объект WebApp от Telegram
-        let tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем приложение на весь экран
-
-        // Получаем данные о пользователе
-        let user = tg.initDataUnsafe.user;
-        if (user) {
-            document.getElementById('user-info').innerText = Привет, ${user.first_name}!;
-        } else {
-            document.getElementById('user-info').innerText = "Не удалось получить данные.";
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        input, button { margin: 10px; padding: 10px; }
-        .profile { border: 1px solid #ddd; padding: 10px; margin-top: 10px; }
-        img { width: 200px; height: auto; }
-    </style>
-</head>
-<body>
-    <h2>Загрузка анкеты</h2>
-    <input type="file" id="photoInput"><br>
-    <input type="text" id="nameInput" placeholder="Имя"><br>
-    <input type="text" id="descInput" placeholder="Описание"><br>
-    <input type="number" id="priceInput" placeholder="Цена за 1 час (₽)"><br>
-    <button onclick="uploadProfile()">Загрузить</button>
-
-    <h2>Анкеты</h2>
-    <div id="profiles"></div>
-
-    <script>
-        // Подключаем Firebase
-        const firebaseConfig = {
-            apiKey: "ТВОЙ_API_KEY",
-            authDomain: "ТВОЙ_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://ТВОЙ_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "ТВОЙ_PROJECT_ID",
-            storageBucket: "ТВОЙ_PROJECT_ID.appspot.com",
-            messagingSenderId: "ТВОЙ_SENDER_ID",
-            appId: "ТВОЙ_APP_ID"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        const storage = firebase.storage();
-        const db = firebase.database();
-
-        function uploadProfile() {
-            let file = document.getElementById("photoInput").files[0];
-            let name = document.getElementById("nameInput").value;
-            let desc = document.getElementById("descInput").value;
-            let price = document.getElementById("priceInput").value;
-
-            if (!file  !name  !desc || !price) {
-                alert("Заполните все поля!");
-                return;
-            }
-
-            let storageRef = storage.ref("photos/" + file.name);
-            storageRef.put(file).then(snapshot => {
-                storageRef.getDownloadURL().then(url => {
-                    let newProfileRef = db.ref("profiles").push();
-                    newProfileRef.set({ name, desc, price, photo: url });
-                    alert("Анкета загружена!");
-                    loadProfiles();
-                });
-            });
-        }
-
-        function loadProfiles() {
-            document.getElementById("profiles").innerHTML = "";
-            db.ref("profiles").once("value", snapshot => {
-                snapshot.forEach(child => {
-                    let data = child.val();
-                    let div = document.createElement("div");
-                    div.className = "profile";
-                    div.innerHTML = `
-                        <img src="${data.photo}" alt="Фото">
-                        <h3>${data.name}</h3>
-                        <p>${data.desc}</p>
-                        <p><strong>${data.price} ₽/час</strong></p>
-                    `;
-                    document.getElementById("profiles").appendChild(div);
-                });
-            });
-        }
-
-        loadProfiles();
-    </script>
-</body>
-</html>
-<script src="https://cdn.jsdelivr.net/npm/appwrite@16.1.0"></script>
-<script>
-    const { Client } = Appwrite;
-</script>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="style.css"> <!-- Подключаем CSS -->
-</head>
-<body>
-    <h2>Список анкет</h2>
-    
-    <div class="container">
-        <div class="profile">
-            <img src="https://via.placeholder.com/300" alt="Фото анкеты">
-            <h3>Имя: Анна</h3>
-            <p>Описание: Пример описания анкеты.</p>
-            <p><strong>Цена за час:</strong> 1500₽</p>
-            <button>Подробнее</button>
-        </div>
-
-        <div class="profile">
-            <img src="https://via.placeholder.com/300" alt="Фото анкеты">
-            <h3>Имя: Мария</h3>
-            <p>Описание: сверхспособность предугадывать блоуджоб.</p>
-            <p><strong>Цена за час:</strong> 2000₽</p>
-            <button>Подробнее</button>
-        </div>
-    </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анкеты</title>
-    <link rel="stylesheet" href="style.css"> <!-- Подключаем CSS -->
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список анкет</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
 </head>
@@ -188,12 +16,12 @@
         // Подключение к Appwrite
         const client = new Appwrite.Client();
         client
-            .setEndpoint("https://cloud.appwrite.io/v1") // Заменить на свой endpoint
-            .setProject("67c5f7c100327cf444d4"); // Заменить на свой project ID
+            .setEndpoint("https://cloud.appwrite.io/v1") // Укажи свой endpoint
+            .setProject("67c5f7c100327cf444d4"); // Укажи свой Project ID
 
         const database = new Appwrite.Databases(client);
-        const collectionId = "your-collection-id"; // Заменить на свой Collection ID
-        const databaseId = "your-database-id"; // Заменить на свой Database ID
+        const databaseId = "ТВОЙ_DATABASE_ID"; // Укажи свой Database ID
+        const collectionId = "ТВОЙ_COLLECTION_ID"; // Укажи свой Collection ID
 
         // Функция загрузки анкет
         async function loadProfiles() {

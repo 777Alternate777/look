@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Список анкет</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
 </head>
 <body>
     <h2>Список анкет</h2>
+    
+    <button onclick="window.location.href='add.html'">Добавить анкету</button>
     
     <div id="profiles" class="container"></div>
 
@@ -16,12 +18,13 @@
         // Подключение к Appwrite
         const client = new Appwrite.Client();
         client
-            .setEndpoint("https://cloud.appwrite.io/v1") // Укажи свой endpoint
-            .setProject("67c5f7c100327cf444d4"); // Укажи свой Project ID
+            .setEndpoint("https://cloud.appwrite.io/v1") 
+            .setProject("67c5f7c100327cf444d4");
 
         const database = new Appwrite.Databases(client);
-        const databaseId = "67c612a50017aa7ec1cd"; // 
-        const collectionId = "67c612be003cad091ef8"; // 
+        const databaseId = "67c612a50017aa7ec1cd"; 
+        const collectionId = "67c612be003cad091ef8"; 
+
         // Функция загрузки анкет
         async function loadProfiles() {
             try {
@@ -33,7 +36,7 @@
                     profilesDiv.innerHTML += `
                         <div class="profile">
                             <img src="${profile.image}" alt="Фото анкеты">
-                            <h3>Имя: ${profile.name}</h3>
+                            <h3>${profile.name}</h3>
                             <p>${profile.description}</p>
                             <p><strong>Цена:</strong> ${profile.price}₽</p>
                             <a href="profile.html?id=${profile.$id}" class="button">Подробнее</a>
@@ -44,7 +47,7 @@
             }
         }
 
-        loadProfiles(); // Загружаем анкеты при открытии страницы
+        loadProfiles();
     </script>
 </body>
 </html>

@@ -15,7 +15,7 @@ async function uploadProfile() {
     let desc = document.getElementById("descInput").value.trim();
     let price = document.getElementById("priceInput").value.trim();
 
-    if (file  name  desc || price) {
+    if (!file  !name  !desc || !price) {
         alert("Заполните все поля!");
         return;
     }
@@ -44,9 +44,11 @@ async function uploadProfile() {
     }
 }
 
+// Добавляем функцию closeForm
 function closeForm() {
     window.location.href = "index.html";
 }
 
-// Назначаем обработчик кнопке "Сохранить"
+// Назначаем обработчики кнопкам
 document.getElementById("saveBtn").addEventListener("click", uploadProfile);
+document.getElementById("closeBtn").addEventListener("click", closeForm);

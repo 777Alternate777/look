@@ -9,35 +9,46 @@
 </head>
 <body>
     <h2>Добавить анкету</h2>
-    <input type="text" id="nameInput" placeholder="Имя"><br>
-    <input type="text" id="descInput" placeholder="Описание"><br>
-    <input type="number" id="priceInput" placeholder="Цена за 1 час (₽)"><br>
-    <input type="file" id="photoInput"><br>
-    <button onclick="uploadProfile()">Сохранить</button>
+    <form id="addForm">
+        <input type="text" id="name" placeholder="Имя" required>
+        <textarea id="description" placeholder="Описание" required></textarea>
+        <input type="number" id="price" placeholder="Цена за 1 час (₽)" required>
+        <input type="url" id="image" placeholder="Ссылка на фото" required>
+        <button type="submit">Сохранить</button>
+    </form>
 
     <script>
-        const client = new Appwrite.Client();
-        client.setEndpoint("https://cloud.appwrite.io/v1")
-              .setProject("67c612a50017aa7ec1cd");
+        const client = new Appwrite.Client()
+            .setEndpoint("https://cloud.appwrite.io/v1")
+            .setProject("67c612a50017aa7ec1cd");
 
         const database = new Appwrite.Databases(client);
-        const collectionId = "67c612be003cad091ef8";
         const databaseId = "67c612a50017aa7ec1cd";
+        const collectionId = "67c612be003cad091ef8";
 
-        async function uploadProfile() {
-            let file = document.getElementById("photoInput").files[0];
-            let name = document.getElementById("nameInput").value;
-            let desc = document.getElementById("descInput").value;
-            let price = document.getElementById("priceInput").value;
+        document.getElementById("addForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
 
-            if (!file  !name  !desc || !price) {
-                alert("Заполните все поля!");
-                return;
+            const name = document.getElementById("name").value;
+            const description = document.getElementById("description").value;
+            const price = document.getElementById("price").value;
+            const image = document.getElementById("image").value;
+
+            try {
+                await database.createDocument(databaseId, collectionId, "unique()", {
+                    name,
+                    description,
+                    price,
+                    image
+                });
+
+                alert("Анкета успешно добавлена!");
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Ошибка добавления анкеты:", error);
+                alert("Ошибка: " + error.message);
             }
-
-            const storage = new Appwrite.Storage(client);
-            const response = await storage.createFile("photos", file);
-
-            const fileUrl = https://cloud.appwrite.io/v1/storage/files/${response.$id}/view?project=67c612a50017aa7ec1cd;
-
-            await database.createDocument(database
+        });
+    </script>
+</body>
+</html>

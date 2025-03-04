@@ -1,48 +1,24 @@
-<head><!DOCTYPE html>
-<html lang="ru">
-<head> <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
-<script>
-    const client = new Appwrite.Client();
-    client
-        .setEndpoint("https://cloud.appwrite.io/v1") // 
-        .setProject("67c5f7c100327cf444d4"); // 
-
-    const database = new Appwrite.Databases(client);
-    const collectionId = "your-collection-id"; // ID коллекции анкет
-</script>/* Общие стили */
 body {
-    background-color: var(--tg-theme-bg-color);
-    color: var(--tg-theme-text-color);
     font-family: Arial, sans-serif;
     text-align: center;
-    margin: 0;
     padding: 20px;
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
 }
 
-/* Контейнер анкет */
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 15px;
-    max-width: 800px;
-    margin: auto;
+h2 {
+    margin-bottom: 10px;
 }
 
-/* Стили карточки анкеты */
 .profile {
     background: var(--tg-theme-secondary-bg-color);
     border-radius: 12px;
     padding: 15px;
+    margin-top: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: left;
-    transition: transform 0.3s ease-in-out;
 }
 
-.profile:hover {
-    transform: translateY(-5px);
-}
-
-/* Стили изображений */
 img {
     width: 100%;
     max-width: 300px;
@@ -51,140 +27,22 @@ img {
     margin-bottom: 10px;
 }
 
-/* Стили кнопок */
-button {
-    background-color: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
-    padding: 12px 18px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    width: 100%;
-}
-
-button:hover {
-    opacity: 0.85;
-    transform: scale(1.05);
-}
-
-/* Анимация загрузки */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.profile {
-    animation: fadeIn 0.5s ease-in-out;
-}
-/* Общие стили */
-body {
-    background-color: var(--tg-theme-bg-color);
-    color: var(--tg-theme-text-color);
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-}
-
-/* Контейнер анкет */
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 15px;
-    max-width: 800px;
-    margin: auto;
-}
-
-/* Стили карточки анкеты */
-.profile {
-    background: var(--tg-theme-secondary-bg-color);
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    transition: transform 0.3s ease-in-out;
-}
-
-.profile:hover {
-    transform: translateY(-5px);
-}
-
-/* Стили для страницы анкеты */
-.profile-detail {
-    max-width: 500px;
-    margin: auto;
-    background: var(--tg-theme-secondary-bg-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Стили изображений */
-img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-/* Стили кнопок */
-.button {
-    display: inline-block;
-    background-color: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
-    padding: 12px 18px;
-    font-size: 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s ease-in-out;
-}
-
-.button:hover {
-    opacity: 0.85;
-    transform: scale(1.05);
-}
-
-/* Анимация загрузки */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.profile, .profile-detail {
-    animation: fadeIn 0.5s ease-in-out;
-}
-.form-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--tg-theme-secondary-bg-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-input, button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
+button, .button {
+    margin: 10px;
     padding: 12px;
     border-radius: 8px;
     border: none;
+    width: 90%;
+    max-width: 300px;
+    background-color: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+button:hover, .button:hover {
+    opacity: 0.8;
 }

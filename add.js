@@ -15,7 +15,7 @@ async function uploadProfile() {
     let desc = document.getElementById("descInput").value.trim();
     let price = document.getElementById("priceInput").value.trim();
 
-    if (!file  !name  !desc || !price) {
+    if (file  name  desc || price) {
         alert("Заполните все поля!");
         return;
     }

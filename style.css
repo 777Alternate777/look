@@ -10,13 +10,20 @@ h2 {
     margin-bottom: 10px;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .profile {
     background: var(--tg-theme-secondary-bg-color);
     border-radius: 12px;
     padding: 15px;
-    margin-top: 15px;
+    margin: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+    width: 300px;
 }
 
 img {
@@ -27,22 +34,16 @@ img {
     margin-bottom: 10px;
 }
 
-button, .button {
-    margin: 10px;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    width: 90%;
-    max-width: 300px;
+.button {
+    display: block;
+    padding: 10px;
     background-color: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
-    font-size: 16px;
-    cursor: pointer;
     text-decoration: none;
-    display: inline-block;
+    border-radius: 8px;
     text-align: center;
 }
 
-button:hover, .button:hover {
+.button:hover {
     opacity: 0.8;
 }

@@ -64,3 +64,167 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить анкету</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+</head>
+<body>
+
+    <h2>Добавить анкету</h2>
+    <input type="text" id="nameInput" placeholder="Имя"><br>
+    <input type="text" id="descInput" placeholder="Описание"><br>
+    <input type="number" id="priceInput" placeholder="Цена (₽)"><br>
+    <button onclick="saveProfile()">Сохранить</button>
+
+    <h2>Список анкет</h2>
+    <div id="profiles" class="container"></div>
+
+    <script>
+        // Подключение к Appwrite
+        const client = new Appwrite.Client();
+        client
+            .setEndpoint("https://cloud.appwrite.io/v1") // Твой endpoint
+            .setProject("67c5f7c100327cf444d4"); // Твой project ID
+
+        const database = new Appwrite.Databases(client);
+        const databaseId = "ТВОЙ_DATABASE_ID"; // Твой Database ID
+        const collectionId = "ТВОЙ_COLLECTION_ID"; // Твой Collection ID
+
+        // Функция загрузки анкет
+        async function loadProfiles() {
+            try {
+                const response = await database.listDocuments(databaseId, collectionId);
+                const profilesDiv = document.getElementById("profiles");
+                profilesDiv.innerHTML = "";
+
+                response.documents.forEach(profile => {
+                    profilesDiv.innerHTML += `
+                        <div class="profile">
+                            <h3>${profile.name}</h3>
+                            <p>${profile.description}</p>
+                            <p><strong>Цена:</strong> ${profile.price}₽</p>
+                        </div>`;
+                });
+            } catch (error) {
+                console.error("Ошибка загрузки анкет:", error);
+            }
+        }
+
+        // Функция сохранения анкеты
+        async function saveProfile() {
+            const name = document.getElementById("nameInput").value;
+            const description = document.getElementById("descInput").value;
+            const price = document.getElementById("priceInput").value;
+
+            if (!name  !description  !price) {
+                alert("Заполните все поля!");
+                return;
+            }
+
+            try {
+                await database.createDocument(databaseId, collectionId, 'unique()', {
+                    name: name,
+                    description: description,
+                    price: price
+                });
+
+                alert("Анкета сохранена!");
+                loadProfiles(); // Обновляем список анкет
+            } catch (error) {
+                console.error("Ошибка сохранения:", error);
+                alert("Ошибка сохранения анкеты.");
+            }
+        }
+
+        loadProfiles(); // Загружаем анкеты при открытии страницы
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить анкету</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+</head>
+<body>
+
+    <h2>Добавить анкету</h2>
+    <input type="text" id="nameInput" placeholder="Имя"><br>
+    <input type="text" id="descInput" placeholder="Описание"><br>
+    <input type="number" id="priceInput" placeholder="Цена (₽)"><br>
+    <button onclick="saveProfile()">Сохранить</button>
+
+    <h2>Список анкет</h2>
+    <div id="profiles" class="container"></div>
+
+    <script>
+        // Подключение к Appwrite
+        const client = new Appwrite.Client();
+        client
+            .setEndpoint("https://cloud.appwrite.io/v1") // Твой endpoint
+            .setProject("67c5f7c100327cf444d4"); // Твой project ID
+
+        const database = new Appwrite.Databases(client);
+        const databaseId = "ТВОЙ_DATABASE_ID"; // Твой Database ID
+        const collectionId = "ТВОЙ_COLLECTION_ID"; // Твой Collection ID
+
+        // Функция загрузки анкет
+        async function loadProfiles() {
+            try {
+                const response = await database.listDocuments(databaseId, collectionId);
+                const profilesDiv = document.getElementById("profiles");
+                profilesDiv.innerHTML = "";
+
+                response.documents.forEach(profile => {
+                    profilesDiv.innerHTML += `
+                        <div class="profile">
+                            <h3>${profile.name}</h3>
+                            <p>${profile.description}</p>
+                            <p><strong>Цена:</strong> ${profile.price}₽</p>
+                        </div>`;
+                });
+            } catch (error) {
+                console.error("Ошибка загрузки анкет:", error);
+            }
+        }
+
+        // Функция сохранения анкеты
+        async function saveProfile() {
+            const name = document.getElementById("nameInput").value;
+            const description = document.getElementById("descInput").value;
+            const price = document.getElementById("priceInput").value;
+
+            if (!name  !description  !price) {
+                alert("Заполните все поля!");
+                return;
+            }
+
+            try {
+                await database.createDocument(databaseId, collectionId, 'unique()', {
+                    name: name,
+                    description: description,
+                    price: price
+                });
+
+                alert("Анкета сохранена!");
+                loadProfiles(); // Обновляем список анкет
+            } catch (error) {
+                console.error("Ошибка сохранения:", error);
+                alert("Ошибка сохранения анкеты.");
+            }
+        }
+
+        loadProfiles(); // Загружаем анкеты при открытии страницы
+    </script>
+
+</body>
+</html>

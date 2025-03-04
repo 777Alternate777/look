@@ -26,6 +26,7 @@
         const storage = new Appwrite.Storage(client);
         const databaseId = "your-database-id"; 
         const collectionId = "your-collection-id"; 
+        const bucketId = "your-bucket-id"; // ID хранилища файлов
 
         async function saveProfile() {
             const name = document.getElementById("name").value;
@@ -39,6 +40,27 @@
             }
 
             try {
-                // Загружаем фото
-                const file = await storage.createFile("your-bucket-id", Appwrite.ID.unique(), imageFile);
-                const imageUrl = `https://cloud.appwrite.io/v1/storage/b
+                // Загружаем фото в Appwrite Storage
+                const file = await storage.createFile(bucketId, Appwrite.ID.unique(), imageFile);
+                const imageUrl = https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${file.$id}/view?project=67c5f7c100327cf444d4;
+
+                // Сохраняем анкету в базу данных
+                await database.createDocument(databaseId, collectionId, Appwrite.ID.unique(), {
+                    name,
+                    description,
+                    price,
+                    image: imageUrl
+                });
+
+                alert("Анкета успешно добавлена!");
+                
+                // Переход обратно на главную страницу
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Ошибка сохранения анкеты:", error);
+                alert("Не удалось сохранить анкету.");
+            }
+        }
+    </script>
+</body>
+</html>

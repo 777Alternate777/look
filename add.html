@@ -14,62 +14,10 @@
         <input type="text" id="descInput" placeholder="Описание"><br>
         <input type="number" id="priceInput" placeholder="Цена за 1 час (₽)"><br>
         <input type="file" id="photoInput"><br>
-        <button onclick="uploadProfile()">Сохранить</button>
+        <button id="saveBtn">Сохранить</button>
         <button onclick="closeForm()">Отмена</button>
     </div>
 
-    <script>
-        // Подключение к Appwrite
-        const client = new window.Appwrite();
-        client
-            .setEndpoint("https://cloud.appwrite.io/v1") // Твой endpoint
-            .setProject("67c5f7c100327cf444d4"); // Твой project ID
-
-        const databases = new window.Appwrite.Databases(client);
-        const storage = new window.Appwrite.Storage(client);
-        const databaseId = "67c612a50017aa7ec1cd"; // ID базы данных
-        const collectionId = "67c612be003cad091ef8"; // ID коллекции
-        const bucketId = "default"; // ID хранилища (если стандартное)
-
-        async function uploadProfile() {
-            let file = document.getElementById("photoInput").files[0];
-            let name = document.getElementById("nameInput").value.trim();
-            let desc = document.getElementById("descInput").value.trim();
-            let price = document.getElementById("priceInput").value.trim();
-
-            // Проверка, чтобы все поля были заполнены
-            if (!file  !name  !desc || !price) {
-                alert("Заполните все поля!");
-                return;
-            }
-
-            try {
-                // Загружаем фото в хранилище
-                const uploadResponse = await storage.createFile(bucketId, "unique()", file);
-                const fileId = uploadResponse.$id;
-
-                // Получаем URL загруженного фото
-                const fileUrl = https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/view?project=67c5f7c100327cf444d4;
-
-                // Добавляем анкету в базу данных
-                await databases.createDocument(databaseId, collectionId, "unique()", {
-                    name: name,
-                    description: desc,
-                    price: parseInt(price),
-                    image: fileUrl
-                });
-
-                alert("Анкета успешно добавлена!");
-                window.location.href = "index.html"; // Перенаправляем на главную страницу
-            } catch (error) {
-                console.error("Ошибка загрузки:", error);
-                alert("Ошибка при загрузке анкеты.");
-            }
-        }
-
-        function closeForm() {
-            window.location.href = "index.html";
-        }
-    </script>
+    <script src="add.js"></script>
 </body>
 </html>

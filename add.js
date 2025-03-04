@@ -47,3 +47,6 @@ async function uploadProfile() {
 function closeForm() {
     window.location.href = "index.html";
 }
+
+// Назначаем обработчик кнопке "Сохранить"
+document.getElementById("saveBtn").addEventListener("click", uploadProfile);

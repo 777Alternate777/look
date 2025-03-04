@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+</head>
+<body>
+    <h1>Подробная информация</h1>
+    <div id="profile-container" class="profile"></div>
+    <button onclick="goBack()">Назад</button>
 
+    <script>
+        // Подключение к Appwrite
+        const client = new Appwrite.Client()
+            .setEndpoint("https://cloud.appwrite.io/v1") 
+            .setProject("67c612a50017aa7ec1cd");
+
+        const database = new Appwrite.Databases(client);
+        const databaseId = "67c612a50017aa7ec1cd";
+        const collectionId = "67c612be003cad091ef8";
+
+        // Функция получения параметра из URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Функция загрузки анкеты
+        async function loadProfile() {
+            const profileId = getQueryParam("id");
+
+            if (!profileId) {
+                document.getElementById("profile-container").innerHTML = "<p>Анкета не найдена.</p>";
+                return;
+            }
+
+            try {
+                const response = await database.getDocument(databaseId, collectionId, profileId);
+                
+                document.getElementById("profile-container").innerHTML = `
+                    <img src="${response.image}" alt="Фото анкеты">
+                    <h3>Имя: ${response.name}</h3>
+                    <p><strong>Описание:</strong> ${response.description}</p>
+                    <p><strong>Цена:</strong> ${response.price} ₽/час</p>
+                `;
+            } catch (error) {
+                console.error("Ошибка загрузки анкеты:", error);
+                document.getElementById("profile-container").innerHTML = "<p>Ошибка загрузки анкеты.</p>";
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        loadProfile();
+    </script>
+</body>
+</html>

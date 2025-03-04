@@ -1,66 +1,5 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head><!DOCTYPE html>
-<html lang="ru">
-<head> <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
-<script>
-    const client = new Appwrite.Client();
-    client
-        .setEndpoint("https://cloud.appwrite.io/v1") // 
-        .setProject("67c5f7c100327cf444d4"); // 
-
-    const database = new Appwrite.Databases(client);
-    const collectionId = "your-collection-id"; // ID коллекции анкет
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анкета</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="profile-detail">
-        <img id="profile-img" src="" alt="Фото анкеты">
-        <h2 id="profile-name"></h2>
-        <p id="profile-desc"></p>
-        <p><strong>Цена за час:</strong> <span id="profile-price"></span></p>
-        <a href="index.html" class="button">Назад</a>
-    </div>
-
-    <script>
-        // Данные анкет (обычно они хранятся на сервере, но пока что просто в JS)
-        const profiles = {
-            1: {
-                name: "Анна",
-                img: "https://via.placeholder.com/300",
-                desc: "Анна – опытный специалист с 5-летним стажем.",
-                price: "1500₽"
-            },
-            2: {
-                name: "Мария",
-                img: "https://via.placeholder.com/300",
-                desc: "Мария – профессионал в своей области с уникальным подходом.",
-                price: "2000₽"
-            }
-        };
-
-        // Получаем ID анкеты из URL
-        const params = new URLSearchParams(window.location.search);
-        const profileId = params.get("id");
-
-        // Заполняем страницу данными анкеты
-        if (profiles[profileId]) {
-            document.getElementById("profile-img").src = profiles[profileId].img;
-            document.getElementById("profile-name").textContent = profiles[profileId].name;
-            document.getElementById("profile-desc").textContent = profiles[profileId].desc;
-            document.getElementById("profile-price").textContent = profiles[profileId].price;
-        } else {
-            document.body.innerHTML = "<h2>Анкета не найдена</h2><a href='index.html'>Назад</a>";
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,37 +8,34 @@
     <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
 </head>
 <body>
-    <div class="profile-detail">
-        <img id="profile-img" src="" alt="Фото анкеты">
-        <h2 id="profile-name"></h2>
-        <p id="profile-desc"></p>
-        <p><strong>Цена:</strong> <span id="profile-price"></span>₽</p>
-        <a href="index.html" class="button">Назад</a>
-    </div>
+    <div id="profile-details"></div>
 
     <script>
-        // Подключение к Appwrite
         const client = new Appwrite.Client();
         client
-            .setEndpoint("https://cloud.appwrite.io/v1") 
-            .setProject("67c5f7c100327cf444d4"); 
+            .setEndpoint("https://cloud.appwrite.io/v1")
+            .setProject("67c5f7c100327cf444d4");
 
         const database = new Appwrite.Databases(client);
-        const collectionId = "your-collection-id"; 
-        const databaseId = "your-database-id"; 
+        const databaseId = "ТВОЙ_DATABASE_ID";
+        const collectionId = "ТВОЙ_COLLECTION_ID";
+
+        // Получаем ID анкеты из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const profileId = urlParams.get("id");
 
         async function loadProfile() {
-            const params = new URLSearchParams(window.location.search);
-            const profileId = params.get("id");
-
             try {
                 const profile = await database.getDocument(databaseId, collectionId, profileId);
-                document.getElementById("profile-img").src = profile.image;
-                document.getElementById("profile-name").textContent = profile.name;
-                document.getElementById("profile-desc").textContent = profile.description;
-                document.getElementById("profile-price").textContent = profile.price;
+                document.getElementById("profile-details").innerHTML = `
+                    <div class="profile">
+                        <img src="${profile.image}" alt="Фото анкеты">
+                        <h3>${profile.name}</h3>
+                        <p>${profile.description}</p>
+                        <p><strong>Цена:</strong> ${profile.price}₽</p>
+                    </div>`;
             } catch (error) {
-                document.body.innerHTML = "<h2>Анкета не найдена</h2><a href='index.html'>Назад</a>";
+                console.error("Ошибка загрузки анкеты:", error);
             }
         }
 

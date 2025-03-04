@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить анкету</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+</head>
+<body>
+    <h2>Добавление анкеты</h2>
+
+    <input type="text" id="name" placeholder="Имя">
+    <input type="text" id="description" placeholder="Описание">
+    <input type="number" id="price" placeholder="Цена за 1 час (₽)">
+    <input type="file" id="image">
+    <button onclick="saveProfile()">Сохранить</button>
+
+    <script>
+        const client = new Appwrite.Client();
+        client
+            .setEndpoint("https://cloud.appwrite.io/v1") 
+            .setProject("67c5f7c100327cf444d4");
+
+        const database = new Appwrite.Databases(client);
+        const storage = new Appwrite.Storage(client);
+        const databaseId = "your-database-id"; 
+        const collectionId = "your-collection-id"; 
+
+        async function saveProfile() {
+            const name = document.getElementById("name").value;
+            const description = document.getElementById("description").value;
+            const price = document.getElementById("price").value;
+            const imageFile = document.getElementById("image").files[0];
+
+            if (!name  !description  !price || !imageFile) {
+                alert("Заполните все поля!");
+                return;
+            }
+
+            try {
+                // Загружаем фото
+                const file = await storage.createFile("your-bucket-id", Appwrite.ID.unique(), imageFile);
+                const imageUrl = `https://cloud.appwrite.io/v1/storage/b
